@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "@faker-js/faker": "^9.8.0",
+    "axios": "^1.9.0",
+    "chalk": "^5.4.1",
+    "dotenv": "^16.5.0",
+    "ethers": "^6.14.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/bun": "latest"
+  },
+  "name": "pharos",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "start": "bun run src/index.ts"
+  },
+  "private": true,
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}
