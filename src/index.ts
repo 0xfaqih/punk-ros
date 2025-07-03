@@ -30,6 +30,9 @@ async function main() {
   await doDelay();
   await withRetry(() => user.dailyCheckin(address), 'Daily checkin');
 
+  await doDelay();
+  await user.sendToFriends()
+
   sendTelegramMessage(`<b> Daily Task Completed.</b>`);
 }
 

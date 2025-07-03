@@ -13,6 +13,13 @@ interface CheckinStatus extends BaseResp {
   data: { status: string };
 }
 
+interface VerifyTask extends BaseResp {
+  data: {
+    task_id: number;
+    verified: boolean;
+  }
+}
+
 export class UserService {
   async userProfile(address: string): Promise<UserProfile["data"]> {
     const resp = await axiosInstance.get<UserProfile>(
@@ -34,4 +41,13 @@ export class UserService {
     );
     return resp.data;
   }
+
+  async verifyTask(address: string, task_id: number, tx_hash: string) {
+  const resp = await axiosInstance.post<VerifyTask>(
+    `/task/verify?address=${address}&task_id=${task_id}&tx_hash=${tx_hash}`
+  );
+
+  return resp.data;
+}
+
 }

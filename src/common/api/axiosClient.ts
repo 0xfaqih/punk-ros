@@ -19,9 +19,9 @@ axiosInstance.interceptors.request.use(
     if (cfg.headers) {
       cfg.headers["User-Agent"] = getRandomUserAgent();
       cfg.headers["Origin"] = "https://testnet.pharosnetwork.xyz";
-      cfg.headers["Content-Type"] = "application/json";
+      // cfg.headers["Content-Type"] = "application/json; charset=utf-8";
       cfg.headers["Referer"] = "https://testnet.pharosnetwork.xyz/";
-      cfg.headers["Accept"] = "*/*";
+      cfg.headers["Accept"] = "application/json, text/plain, */*";
       if (token) cfg.headers["Authorization"] = `Bearer ${token}`;
     }
     return cfg;
