@@ -1,12 +1,11 @@
 import { axiosInstance } from "@/common/api/axiosClient";
 import { normalizeAxiosError } from "@/common/utils/normalizeAxiosError";
+import { BaseResp } from "@/types";
 
-export interface AuthResp {
-  code: number;
-  msg: string;
+export interface AuthResp extends BaseResp {
   data: {
     jwt: string;
-  };
+  }
 }
 
 export interface LoginParams {

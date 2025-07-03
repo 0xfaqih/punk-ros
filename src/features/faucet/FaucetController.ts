@@ -20,6 +20,8 @@ export class FacuetController {
         const result = await this.service.getFaucet(address);
         if (result.msg === "ok") {
           log("success", "Faucet request successful.");
+        } else {
+          log("error", `Faucet request failed: ${result.msg}`);
         }
         return true;
       } else {

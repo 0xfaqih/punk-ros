@@ -1,18 +1,11 @@
 import { axiosInstance } from "@/common/api/axiosClient";
+import { BaseResp } from "@/types";
 
-export interface CheckEligibilityResp {
-  code: number;
+export interface CheckEligibilityResp extends BaseResp {
   data: {
     is_able_to_faucet: boolean;
-  };
-  msg: string;
+  }
 }
-
-interface FaucetResp {
-  code: number;
-  msg: string;
-}
-
 export class FaucetService {
   async checkEligibility(
     address: string
@@ -23,8 +16,8 @@ export class FaucetService {
     return resp.data.data;
   }
 
-  async getFaucet(address: string): Promise<FaucetResp> {
-    const resp = await axiosInstance.post<FaucetResp>(
+  async getFaucet(address: string): Promise<BaseResp> {
+    const resp = await axiosInstance.post<BaseResp>(
       `/faucet/daily?address=${address}`
     );
     return resp.data;
