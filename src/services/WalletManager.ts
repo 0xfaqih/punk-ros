@@ -35,12 +35,20 @@ export class WalletManager {
   async signMessage(message: string) {
     return await this.wallet.signMessage(message);
   }
+  
 
   async sendToFriend(
     to: string,
     amount: string,
     counter: number
   ): Promise<string> {
+    function promiseTimeout(promise: Promise<any>, ms: number) {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout!')), ms))
+  ]);
+}
+
     try {
       const nonce = await this.provider.getTransactionCount(
         this.wallet.address
@@ -55,7 +63,7 @@ export class WalletManager {
       const tx = await this.wallet.sendTransaction(txParams);
 
       log("info", `${counter}. Transaction sent to ${to}`);
-      await tx.wait();
+       await promiseTimeout(tx.wait(), 60_000); 
       return tx.hash;
     } catch (error) {
       log("error", `${counter}. Failed to send transaction to ${to}: ${error}`);
