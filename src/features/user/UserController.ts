@@ -29,15 +29,11 @@ export class UserController {
   async dailyCheckin(address: string) {
     try {
       const resp = await this.service.checkinStatus(address);
-      if (resp.data.status === "1102222") {
-        const result = await this.service.dailyCheckin(address);
-        if (result.msg === "ok") {
-          log("success", "Daily checkin successful.");
-        } else {
-          log("error", `Daily checkin failed: ${result.msg}`);
-        }
-      } else if (resp.data.status === "1100222") {
-        log("warn", "Already checked in today.");
+      const result = await this.service.dailyCheckin(address);
+      if (result.msg === "ok") {
+        log("success", "Daily checkin successful.");
+      } else {
+        log("error", `Daily checkin failed: ${result.msg}`);
       }
     } catch (error) {
       throw normalizeAxiosError(error);
@@ -68,14 +64,18 @@ export class UserController {
 
     log("info", `Sending ${amount} PHRS to ${numRecipients} recipients...`);
     for (let i = 0; i < numRecipients; i++) {
-      const txHash = await withRetry(() =>
-        wm.sendToFriend(recipients[i], amount, i + 1)
-      );
-      if (txHash) {
-        await withRetry(() => this.verifyTask(address, 103, txHash));
+      try {
+        const txHash = await withRetry(() =>
+          wm.sendToFriend(recipients[i], amount, i + 1)
+        );
+        if (txHash) {
+          await withRetry(() => this.verifyTask(address, 103, txHash));
+        }
+        log("success", `Recipient ${recipients[i]} success`);
+      } catch (err) {
+        log("error", `Recipient ${recipients[i]} gagal:` + err);
       }
-
-      doDelay();
+      await doDelay();
     }
 
     log("success", `Sent to all successfully.`);

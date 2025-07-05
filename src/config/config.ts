@@ -14,6 +14,6 @@ export const config = {
   telegramChatId: process.env.TELEGRAM_CHAT_ID || "",
   telegramThreadId: process.env.TELEGRAM_THREAD_ID || "",
 
-  maxRetries: Number(process.env.MAX_RETRIES) || 5,
-  retryCooldownMs: Number(process.env.RETRY_COOLDOWN_MS) || 10000,
+  maxRetries: Number(process.env.MAX_RETRIES) || 10,
+  retryCooldownMs: Number(process.env.RETRY_COOLDOWN_MS) || 5000,
 };

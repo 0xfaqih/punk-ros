@@ -20,7 +20,10 @@ export class WalletManager {
   }
 
   async checkBalance() {
-    const balance = await this.provider.getBalance(this.wallet.address);
+    const balance = await this.provider.getBalance(
+      this.wallet.address,
+      "pending"
+    );
     log("info", `Balance: ${ethers.formatEther(balance)} PHRS`);
     return balance;
   }
@@ -42,13 +45,16 @@ export class WalletManager {
       const nonce = await this.provider.getTransactionCount(
         this.wallet.address
       );
-      const tx = await this.wallet.sendTransaction({
+
+      const txParams: any = {
         to,
         value: ethers.parseEther(amount),
         gasLimit: 23000,
         nonce,
-      });
-      log("success", `${counter}. Transaction sent to ${to}`);
+      };
+      const tx = await this.wallet.sendTransaction(txParams);
+
+      log("info", `${counter}. Transaction sent to ${to}`);
       await tx.wait();
       return tx.hash;
     } catch (error) {
